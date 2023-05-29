@@ -22,6 +22,7 @@ LOG=/logs/log.txt
 if [ "$ROLE" == "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
+    echo "Starting ngtcp2 client for test: $TESTCASE"
     REQS=($REQUESTS)
     SERVER=$(echo ${REQS[0]} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
     if [ "$TESTCASE" == "http3" ]; then
@@ -54,11 +55,14 @@ if [ "$ROLE" == "client" ]; then
         if [ "$TESTCASE" == "resumption" ]; then
             CLIENT_ARGS="$CLIENT_ARGS --disable-early-data"
         fi
+       
+        echo "$CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS"       
         REQUESTS=${REQS[0]}
         $CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS &> $LOG
         REQUESTS=${REQS[@]:1}
         $CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS &>> $LOG
     elif [ "$TESTCASE" == "multiconnect" ]; then
+        echo "$CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS"
         CLIENT_ARGS="$CLIENT_ARGS --timeout=180s --handshake-timeout=180s"
         for REQ in $REQUESTS; do
             echo "multiconnect REQ: $REQ" >> $LOG
@@ -68,6 +72,8 @@ if [ "$ROLE" == "client" ]; then
         $CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS &> $LOG
     fi
 elif [ "$ROLE" == "server" ]; then
+    echo "Starting ngtcp2 server for test:" $TESTCASE
+    
     if [ "$TESTCASE" == "http3" ]; then
         SERVER_BIN="/usr/local/bin/server"
     else
@@ -88,6 +94,6 @@ elif [ "$ROLE" == "server" ]; then
             SERVER_ARGS="$SERVER_ARGS --no-pmtud"
             ;;
     esac
-
+    echo "$SERVER_BIN  $SERVER_ARGS $SERVER_PARAMS"
     $SERVER_BIN '*' 443 $SERVER_ARGS $SERVER_PARAMS &> $LOG
 fi

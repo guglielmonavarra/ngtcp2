@@ -55,7 +55,7 @@ if [ "$ROLE" == "client" ]; then
         if [ "$TESTCASE" == "resumption" ]; then
             CLIENT_ARGS="$CLIENT_ARGS --disable-early-data"
         fi
-       
+        ls /usr/local/bin/
         echo "$CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS"       
         REQUESTS=${REQS[0]}
         $CLIENT_BIN $CLIENT_ARGS $REQUESTS $CLIENT_PARAMS &> $LOG
@@ -73,7 +73,7 @@ if [ "$ROLE" == "client" ]; then
     fi
 elif [ "$ROLE" == "server" ]; then
     echo "Starting ngtcp2 server for test:" $TESTCASE
-    
+    ls /usr/local/bin/
     if [ "$TESTCASE" == "http3" ]; then
         SERVER_BIN="/usr/local/bin/server"
     else

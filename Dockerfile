@@ -16,15 +16,15 @@ RUN ./dkr-prereq.sh
 
 
 # Build second lean image
-FROM martenseemann/quic-network-simulator-endpoint:latest
-USER root
-WORKDIR /
+#FROM martenseemann/quic-network-simulator-endpoint:latest
+#USER root
+#WORKDIR /
 
 
-COPY --from=builder /usr/local/bin/h09server /h09server
-COPY --from=builder /usr/local/bin/h09client /h09client
-COPY --from=builder /usr/local/bin/client /client
-COPY --from=builder /usr/local/bin/server /server
+#COPY --from=builder /usr/local/bin/h09server /h09server
+#COPY --from=builder /usr/local/bin/h09client /h09client
+#COPY --from=builder /usr/local/bin/client /client
+#COPY --from=builder /usr/local/bin/server /server
 # copy run script and run it
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh

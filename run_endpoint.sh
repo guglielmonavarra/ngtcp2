@@ -28,7 +28,7 @@ if [ "$ROLE" == "client" ]; then
     if [ "$TESTCASE" == "http3" ]; then
         CLIENT_BIN="/usr/local/bin/client"
     else
-        CLIENT_BIN="/usr/local/bin/h09client"
+        CLIENT_BIN="/usr/local/bin/client"
     fi
     CLIENT_ARGS="$SERVER 443 --download /downloads -s --no-quic-dump --no-http-dump --exit-on-all-streams-close --qlog-dir $QLOGDIR --cc $CCALGO --initial-rtt 100ms"
     if [ "$TESTCASE" == "versionnegotiation" ]; then
@@ -77,7 +77,7 @@ elif [ "$ROLE" == "server" ]; then
     if [ "$TESTCASE" == "http3" ]; then
         SERVER_BIN="/usr/local/bin/server"
     else
-        SERVER_BIN="/usr/local/bin/h09server"
+        SERVER_BIN="/usr/local/bin/server"
     fi
     SERVER_ARGS="/certs/priv.key /certs/cert.pem -s -d /www --qlog-dir $QLOGDIR --cc $CCALGO --initial-rtt 100ms"
     case "$TESTCASE" in
